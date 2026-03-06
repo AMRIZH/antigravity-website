@@ -1,0 +1,91 @@
+<%- include('partials/header') %>
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4 text-warning fw-bold"><i class="bi bi-shield-lock-fill"></i> 🛡️ Admin Dashboard</h2>
+
+            <div class="card shadow-sm border-0 mb-5">
+                <div class="card-header bg-dark text-white fw-bold">👥 Registered Users</div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-center">ID</th>
+                                    <th>Username</th>
+                                    <th class="text-center">Role</th>
+                                    <th class="text-center">Total Recipes Published</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% users.forEach(u=> { %>
+                                    <tr>
+                                        <td class="text-center fw-bold text-muted">
+                                            <%= u.id %>
+                                        </td>
+                                        <td>
+                                            <%= u.username %>
+                                        </td>
+                                        <td class="text-center">
+                                            <span
+                                                class="badge <%= u.role === 'admin' ? 'bg-danger px-3' : 'bg-primary px-3' %> rounded-pill">
+                                                <%= u.role.toUpperCase() %>
+                                            </span>
+                                        </td>
+                                        <td class="text-center fw-bold text-success">
+                                            <%= u._count.recipes %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white fw-bold">📜 All Recipes</div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered mb-0 align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="text-center">ID</th>
+                                    <th>Recipe Title</th>
+                                    <th>Author</th>
+                                    <th>Publication Date</th>
+                                    <th class="text-center">Admin Controls</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% recipes.forEach(r=> { %>
+                                    <tr>
+                                        <td class="text-center fw-bold text-muted">
+                                            <%= r.id %>
+                                        </td>
+                                        <td class="fw-bold"><a href="/recipe/<%= r.id %>" class="text-decoration-none">
+                                                <%= r.title %>
+                                            </a></td>
+                                        <td>
+                                            <%= r.author.username %>
+                                        </td>
+                                        <td>
+                                            <%= new Date(r.createdAt).toLocaleDateString() %>
+                                        </td>
+                                        <td class="text-center">
+                                            <form action="/recipe/<%= r.id %>/delete" method="POST" class="d-inline"
+                                                onsubmit="return confirm('ADMIN ACTION: Are you absolutely sure you want to permanently delete this recipe from the database?');">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-danger rounded-pill fw-bold px-3">🗑️ Force
+                                                    Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('partials/footer') %>

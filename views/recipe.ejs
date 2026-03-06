@@ -1,0 +1,60 @@
+<%- include('partials/header') %>
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden bg-white">
+                <% if (recipe.imageUrl) { %>
+                    <img src="<%= recipe.imageUrl %>" class="card-img-top w-100" alt="<%= recipe.title %>"
+                        style="max-height: 450px; object-fit: cover;">
+                    <% } else { %>
+                        <div style="height: 250px; background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);"
+                            class="d-flex align-items-center justify-content-center">
+                            <span class="text-white fs-1 fw-bold">Recipe Image</span>
+                        </div>
+                        <% } %>
+                            <div class="card-body p-5">
+                                <h1 class="card-title fw-bold text-dark display-5 mb-3">
+                                    <%= recipe.title %>
+                                </h1>
+                                <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold fs-5 me-3"
+                                        style="width: 50px; height: 50px;">
+                                        <%= recipe.author.username.charAt(0).toUpperCase() %>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold text-secondary">Added by <%= recipe.author.username %>
+                                        </h6>
+                                        <small class="text-muted">
+                                            <%= new Date(recipe.createdAt).toLocaleString(undefined, { dateStyle: 'long'
+                                                , timeStyle: 'short' }) %>
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="card-text fs-5 text-dark lh-lg" style="white-space: pre-wrap;">
+                                    <%- recipe.description %>
+                                </div>
+
+                                <% if (user && (user.id===recipe.authorId || user.role==='admin' )) { %>
+                                    <div class="mt-5 pt-4 border-top d-flex gap-3">
+                                        <a href="/recipe/<%= recipe.id %>/edit"
+                                            class="btn btn-warning btn-lg rounded-pill fw-bold px-4 shadow-sm text-dark">✏️
+                                            Edit Recipe</a>
+                                        <form action="/recipe/<%= recipe.id %>/delete" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to permanently delete this recipe?');">
+                                            <button type="submit"
+                                                class="btn btn-danger btn-lg rounded-pill fw-bold px-4 shadow-sm">🗑️
+                                                Delete Recipe</button>
+                                        </form>
+                                    </div>
+                                    <% } %>
+
+                                        <div class="mt-5 text-center">
+                                            <a href="/"
+                                                class="btn btn-outline-secondary rounded-pill fw-bold px-4 py-2">⬅️ Back
+                                                to Recipes</a>
+                                        </div>
+                            </div>
+            </div>
+        </div>
+    </div>
+    <%- include('partials/footer') %>

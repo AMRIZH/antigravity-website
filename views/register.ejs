@@ -1,0 +1,37 @@
+<%- include('partials/header') %>
+    <div class="row mt-5">
+        <div class="col-md-5 mx-auto">
+            <div class="card shadow-lg border-0 rounded-4 p-4 text-center">
+                <div class="card-body">
+                    <h2 class="card-title fw-bold mb-4 text-primary">🚀 Join ReciteRecipe</h2>
+                    <form action="/register" method="POST" class="text-start">
+                        <div class="mb-3">
+                            <label for="username" class="form-label fw-semibold">Choose a Username</label>
+                            <input type="text" class="form-control form-control-lg rounded-pill" id="username"
+                                name="username" required placeholder="User_123">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-semibold">Secure Password</label>
+                            <input type="password" class="form-control form-control-lg rounded-pill" id="password"
+                                name="password" required placeholder="••••••••">
+                        </div>
+                        <div class="mb-4">
+                            <label for="role" class="form-label fw-semibold">Account Role</label>
+                            <select class="form-select form-select-lg rounded-pill" id="role" name="role">
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                            <small class="text-muted ps-3">Note: Admin access granted immediately for testing.</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm fw-bold">Sign
+                            Up Now</button>
+                    </form>
+                    <div class="mt-4">
+                        <p class="text-muted">Already a member? <a href="/login"
+                                class="fw-bold text-decoration-none">Log In</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('partials/footer') %>

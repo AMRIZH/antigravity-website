@@ -1,0 +1,29 @@
+<%- include('partials/header') %>
+    <div class="row mt-5">
+        <div class="col-md-5 mx-auto">
+            <div class="card shadow-lg border-0 rounded-4 p-4 text-center">
+                <div class="card-body">
+                    <h2 class="card-title fw-bold mb-4 text-primary">👋 Welcome Back</h2>
+                    <form action="/login" method="POST" class="text-start">
+                        <div class="mb-4">
+                            <label for="username" class="form-label fw-semibold">Username</label>
+                            <input type="text" class="form-control form-control-lg rounded-pill" id="username"
+                                name="username" required placeholder="Enter your username">
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-semibold">Password</label>
+                            <input type="password" class="form-control form-control-lg rounded-pill" id="password"
+                                name="password" required placeholder="Enter your password">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm fw-bold">Login
+                            to Account</button>
+                    </form>
+                    <div class="mt-4">
+                        <p class="text-muted">Don't have an account? <a href="/register"
+                                class="fw-bold text-decoration-none">Create one</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('partials/footer') %>

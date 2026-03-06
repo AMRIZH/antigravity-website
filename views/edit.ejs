@@ -1,0 +1,101 @@
+<%- include('partials/header') %>
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="mb-4 text-warning fw-bold">✏️ Edit Recipe</h2>
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4">
+                    <form action="/recipe/<%= recipe.id %>/edit" method="POST" enctype="multipart/form-data"
+                        id="recipeForm">
+                        <div class="mb-4">
+                            <label for="title" class="form-label fw-bold">Recipe Title</label>
+                            <input type="text" class="form-control form-control-lg rounded-pill" id="title" name="title"
+                                value="<%= recipe.title %>" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Description (Ingredients & Instructions)</label>
+                            <div id="editor-container"
+                                style="height: 350px; background-color: #f8f9fa; border: 1px solid #ced4da; border-radius: 0.5rem;">
+                                <!-- The Quill content is safely inserted here -->
+                                <div class="ql-editor"><%- recipe.description %></div>
+                            </div>
+                            <input type="hidden" name="description" id="description">
+                        </div>
+
+                        <div class="mb-4 border p-3 rounded bg-light shadow-sm">
+                            <label class="form-label fw-bold d-block">Current Feature Image</label>
+                            <% if (recipe.imageUrl) { %>
+                                <div class="mb-3 text-center">
+                                    <img src="<%= recipe.imageUrl %>" class="img-thumbnail shadow-sm rounded-3 w-50"
+                                        style="max-height: 250px; object-fit: cover;" alt="Current Image">
+                                </div>
+                                <% } else { %>
+                                    <p class="text-muted fst-italic">No image currently set.</p>
+                                    <% } %>
+                                        <hr class="my-3">
+                                        <label class="form-label fw-bold text-primary">Replace Image (Optional)</label>
+                                        <div class="row g-3 align-items-center">
+                                            <div class="col-md-5">
+                                                <label class="text-secondary small mb-1">Upload New File</label>
+                                                <input type="file" class="form-control" name="imageFile"
+                                                    accept="image/*">
+                                            </div>
+                                            <div class="col-md-2 text-center text-muted fw-bold">OR</div>
+                                            <div class="col-md-5">
+                                                <label class="text-secondary small mb-1">Paste New Image URL</label>
+                                                <input type="url" class="form-control" name="imageUrl"
+                                                    placeholder="https://...">
+                                            </div>
+                                        </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-warning btn-lg rounded-pill px-5 fw-bold shadow-sm">🔄
+                                Update Recipe</button>
+                            <a href="/recipe/<%= recipe.id %>"
+                                class="btn btn-secondary btn-lg rounded-pill px-4 fw-bold">❌ Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+        var quill = new Quill('#editor-container', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    [{ 'script': 'sub' }, { 'script': 'super' }],
+                    [{ 'indent': '-1' }, { 'indent': '+1' }],
+                    [{ 'direction': 'rtl' }],
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'font': [] }],
+                    [{ 'align': [] }],
+                    ['link'],
+                    ['clean']
+                ]
+            }
+        });
+
+        // Check if the current editor is wrapped inside ql-editor due to initialization
+        var content = document.querySelector('.ql-editor');
+        if (content && content.firstElementChild && content.firstElementChild.classList.contains('ql-editor')) {
+            document.querySelector('#editor-container').innerHTML = '';
+            var innerHtml = content.firstElementChild.innerHTML;
+            quill = new Quill('#editor-container', { theme: 'snow' });
+            quill.root.innerHTML = innerHtml;
+        }
+
+        document.getElementById('recipeForm').onsubmit = function () {
+            var description = document.querySelector('input[name=description]');
+            description.value = quill.root.innerHTML;
+        };
+    </script>
+    <%- include('partials/footer') %>
